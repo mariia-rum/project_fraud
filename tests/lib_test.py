@@ -5,7 +5,7 @@ import os
 import project_fraud
 import pandas as pd
 # Import from our lib
-from project_fraud.lib import clean_data
+#from project_fraud.lib import clean_data
 import pytest
 
 
