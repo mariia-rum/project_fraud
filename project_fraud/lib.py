@@ -58,12 +58,9 @@ def drop_many_missing_values():
     return df
 
 
-
-
-if __name__ == '__main__':
+#if __name__ == '__main__':
     # For introspections purpose to quickly get this functions on ipython
-    import project_fraud
-    folder_source, _ = split(project_fraud.__file__)
-    df = pd.read_csv('{}/data/data.csv.gz'.format(folder_source))
-    clean_data = clean_data(df)
-    print(' dataframe cleaned')
+    #import project_fraud
+    #folder_source, _ = split(project_fraud.__file__)
+    #df = pd.read_csv('{}/data/data.csv.gz'.format(folder_source))
+    #print(' dataframe cleaned')
