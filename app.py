@@ -5,7 +5,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import numpy as np
-#from project_fraud.lib import drop_many_missing_values
+from project_fraud.lib import drop_many_missing_values
 import matplotlib.pyplot as plt
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -14,7 +14,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 
-#data = drop_many_missing_values()
+
+print("Loading in data from data/")
+data = drop_many_missing_values()
 
 
 #vals = plt.hist(data['TransactionDT'] / (3600*24), bins=1800)
@@ -22,11 +24,16 @@ server = app.server
 #plt.xlabel('Days')
 #plt.ylabel('Number of transactions')
 #plt.ylim(0,1000)
+# labels  = data.country.unique()
+# values = data.country.unique()
+# dropdown_dict = [{l: v} for l, v in zip(labels, values)]
+
 
 app.layout = html.Div([
     html.H2('Hello World'),
     dcc.Dropdown(
         id='dropdown',
+        # options=dropdown_dict,
         options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
         value='LA'
     ),
