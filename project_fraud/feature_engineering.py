@@ -1,7 +1,26 @@
-from project_fraud.lib import drop_many_missing_values
-
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import mean_squared_error, roc_auc_score
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+import seaborn as sns
+
+
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LassoCV
+from sklearn.pipeline import make_pipeline
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+
+from sklearn.linear_model import LogisticRegression
 
 
 def clean_mail(data):
@@ -94,18 +113,18 @@ def dist_from_median_rel(row, metric):
 
 ### final function
 
-def transform_raw_data(data):
-    data = drop_many_missing_values
-    data['P_emaildomain_bin'], data['P_emaildomain_suffix'] = clean_mail(data)
-    data['weekday'] = make_day_feature(data, offset=0.58)
-    data['hours'] = make_hour_feature(data)
-    data['cardID'] = data.apply(lambda row: string_card(row), axis=1)
-    data = data.merge(credit_cards(data), how='left', on="cardID")
-    data['dist_mean'] = data.apply(lambda row: dist_from_mean(row, 'mean'), axis=1)
-    data['dist_median'] = data.apply(lambda row: dist_from_mean(row, 'median'), axis=1)
-    data['dist_mean_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'mean'), axis=1)
-    data['dist_median_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'median'), axis=1)
-    return data
+# def transform_raw_data(data):
+#     data = drop_many_missing_values()
+#     data['P_emaildomain_bin'], data['P_emaildomain_suffix'] = clean_mail(data)
+#     data['weekday'] = make_day_feature(data, offset=0.58)
+#     data['hours'] = make_hour_feature(data)
+#     data['cardID'] = data.apply(lambda row: string_card(row), axis=1)
+#     data = data.merge(credit_cards(data), how='left', on="cardID")
+#     data['dist_mean'] = data.apply(lambda row: dist_from_mean(row, 'mean'), axis=1)
+#     data['dist_median'] = data.apply(lambda row: dist_from_mean(row, 'median'), axis=1)
+#     data['dist_mean_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'mean'), axis=1)
+#     data['dist_median_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'median'), axis=1)
+#     return data
 
 
 
