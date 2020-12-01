@@ -6,7 +6,6 @@
 from os.path import split
 import pandas as pd
 import datetime
-import pandas as pd
 import numpy as np
 
 pd.set_option('display.width', 200)
@@ -29,6 +28,8 @@ def merge_data(path_to_data):
 
 def drop_many_missing_values():
     df = merge_data('~/data/')
+
+    # get rid of nan values
 
     # create list of numerical and categorical features
     c = (df.dtypes == 'object')
