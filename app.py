@@ -297,13 +297,13 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 #     return 'You have selected "{}"'.format(value)
 
 
-<canvas class=
-"background"
-></canvas>
+# <canvas class=
+# "background"
+# ></canvas>
 
-<script src=
-"path/to/particles.min.js"
-></script>
+# <script src=
+# "path/to/particles.min.js"
+# ></script>
 
 if __name__ == '__main__':
     app.run_server(debug=True)
