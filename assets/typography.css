@@ -1,0 +1,22 @@
+body {
+    font-family: sans-serif;
+    background-color: #00375D;
+    padding-left: 80px;
+    padding-top: 30px;
+    padding-right: 80px;
+    padding-bottom: 125px;
+}
+
+h4 {
+  color:white;
+  font-family: sans-serif;
+  font-stretch: ultra-expanded;
+  text-align: center;
+  font-size: 35px;
+}
+
+h1, h2, h3, h5, h6 {
+    color: white;
+}
+
+i
