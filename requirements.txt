@@ -29,3 +29,4 @@ six==1.15.0
 Werkzeug==1.0.1
 scikit-image==0.17.2
 scikit-learn==0.20.4
+joblib==0.17.0
