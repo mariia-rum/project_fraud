@@ -34,7 +34,6 @@ def loadmodel(filename):
     return loaded_model
 pipeline = loadmodel("notebooks/final_pickle/pickle_website_compress_2.pkl")
 
-df = pd.read_csv("~/code/mariia-rum/project_fraud/notebooks/Gilles/val_data.csv")
 print('done loading app')
 
 #html.Link(rel="preconnect", href="https://fonts.gstatic.com")
