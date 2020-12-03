@@ -111,28 +111,20 @@ def dist_from_median_rel(row, metric):
         dist_rel = (row['TransactionAmt'] - row[metric]) / row[metric]
         return dist_rel
 
-# def clean_mail_suffix(P_emaildomain_suffix):
-#    if P_emaildomain_suffix == 'nan':
-#       return np.nan
-#    else:
-#        return P_emaildomain_suffix
-
-
 ### final function
 
-def transform_raw_data(data):
-    data = drop_many_missing_values()
-    data['P_emaildomain_bin'], data['P_emaildomain_suffix'] = clean_mail(data)
-    #data_transformed['P_emaildomain_suffix'] = data_transformed['P_emaildomain_suffix'].apply(lambda x: clean_mail_suffix(x))
-    data['weekday'] = make_day_feature(data, offset=0.58)
-    data['hours'] = make_hour_feature(data)
-    data['cardID'] = data.apply(lambda row: string_card(row), axis=1)
-    data = data.merge(credit_cards(data), how='left', on="cardID")
-    data['dist_mean'] = data.apply(lambda row: dist_from_mean(row, 'mean'), axis=1)
-    data['dist_median'] = data.apply(lambda row: dist_from_mean(row, 'median'), axis=1)
-    data['dist_mean_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'mean'), axis=1)
-    data['dist_median_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'median'), axis=1)
-    return data
+# def transform_raw_data(data):
+#     data = drop_many_missing_values()
+#     data['P_emaildomain_bin'], data['P_emaildomain_suffix'] = clean_mail(data)
+#     data['weekday'] = make_day_feature(data, offset=0.58)
+#     data['hours'] = make_hour_feature(data)
+#     data['cardID'] = data.apply(lambda row: string_card(row), axis=1)
+#     data = data.merge(credit_cards(data), how='left', on="cardID")
+#     data['dist_mean'] = data.apply(lambda row: dist_from_mean(row, 'mean'), axis=1)
+#     data['dist_median'] = data.apply(lambda row: dist_from_mean(row, 'median'), axis=1)
+#     data['dist_mean_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'mean'), axis=1)
+#     data['dist_median_rel'] = data.apply(lambda row: dist_from_median_rel(row, 'median'), axis=1)
+#     return data
 
 
 
