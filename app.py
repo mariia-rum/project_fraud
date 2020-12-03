@@ -14,6 +14,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
+import joblib
+
 
 import base64
 import datetime
@@ -28,10 +30,10 @@ app.config.suppress_callback_exceptions = True
 pio.templates.default = "plotly_dark"
 
 #load pickle file for prediction model
-# def loadmodel(filename):
-#     loaded_model = pickle.load(open(filename, 'rb'))
-#     return loaded_model
-# pipeline = loadmodel("notebooks/Final_folder/pickle_website_compress.pkl")
+def loadmodel(filename):
+    loaded_model = joblib.load(open(filename, 'rb'))
+    return loaded_model
+pipeline = loadmodel("notebooks/final_pickle/pickle_website_compress_2.pkl")
 
 df = pd.read_csv("~/code/mariia-rum/project_fraud/notebooks/Gilles/val_data.csv")
 print('done loading app')
@@ -76,9 +78,9 @@ app.layout = html.Div(children=[
         ),
     html.Div(id='output-data-upload'),
 
-    # dcc.Graph(
-    #      id='example-graph',
-    #      figure=fig),
+     # dcc.Graph(
+     #      id='example-graph',
+     #      figure=fig),
     # N, bins, patches = plt.hist(X_val['proba'], alpha=0.5, bins=5, range=(0,1))
     #     for i in range(0,1):
     #         patches[i].set_facecolor('#A0E0B4')
@@ -110,15 +112,15 @@ print("Loading in data from data/")
 def pipelines(pipeline, df):
     proba_score = pipeline.predict_proba(df)
     df['probability_score'] = proba_score[:,1]
-    return df.round(2)
+    return df
 
 #STEP 3: DROPPING COLOMNS:
 def drop_cols(df):
-    df = df.drop(columns=['P_emaildomain_suffix', 'P_emaildomain_bin', 'card1',
-       'card2', 'addr1', 'card5', 'D15', 'C13', 'D2', 'D10',
-       'D4','dist_mean', 'dist_median', 'dist_mean_rel',
-       'dist_median_rel'])
-    return df
+     df = df.drop(columns=['card1',
+        'card2', 'addr1', 'card5', 'D15', 'C13', 'D2', 'D10',
+        'D4','dist_mean', 'dist_median', 'dist_mean_rel',
+        'dist_median_rel'])
+     return df
 
 def rename(df):
     df.rename(columns={'TransactionAmt': 'Transaction Amount', },inplace=True)
@@ -145,8 +147,6 @@ def deencode_weekdays(weekday):
 def parse_contents(contents, filename, date):
     print('starting parse' )
     print(filename)
-    print(type(contents))
-    print('###',contents,'###')
     content_type, content_string = contents.split(',')
 
     decoded = base64.b64decode(content_string)
@@ -166,7 +166,7 @@ def parse_contents(contents, filename, date):
             'There was an error processing this file.'
         ])
     try:
-        #df = pipelines(pipeline, df)
+        df = pipelines(pipeline, df)
         df = drop_cols(df)
         df = rename(df)
         df["weekday"] = df["weekday"].apply(lambda x: deencode_weekdays(x))
@@ -186,7 +186,6 @@ def parse_contents(contents, filename, date):
             style_header={'backgroundColor':'#4E4B5D', 'color': 'white', 'border': '1px solid black', 'textAlign':'center', 'fontFamily':'Open Sans'},
             style_cell={'minWidth': 120, 'maxWidth': 120, 'width': 120, 'padding':'5px'},
             fixed_rows={'headers': True},
-
             style_data_conditional=[
                             {'if':{'column_id' :'probability_score',
                                 'filter_query' : '{probability_score} <= 0.2'
