@@ -1,46 +1,61 @@
-# Data analysis
-- Document here the project: project_fraud
-- Description: Project Description
-- Data Source:
-The dataset from Kaggle, provided by leading payment service company, Vesta Corporation, seeking the best solutions for the fraud prevention industry (https://www.kaggle.com/c/ieee-fraud-detection)
-- Description of the project:
-This repository contains the procedure we followed to deploy a machine learning model with the highest score as a web app of Credit Card Fraud detection on Heroku.
+# Credit Card Fraud Detection
 
-# 1 st step (data preprocessing)
-As in the beginning, we have 4 CSV files ( train_identity, test_identity, train_transactions, text_transactions), we merge them to make data cleaning more efficient. We get rid of rows that contained more than 60% of missing values.
+## Overview
 
-# 2nd step (feature engineering)
-We engineered features, that we fought may be useful for our model:
-- Weekday
-- Hour of the day 
-- Credit-card specific features 
-- Distance of current transaction from a median value of transactions of one credit card vs. fraud
-also, we engineered features connected to mails of users (like mail bin(f.e. Gmail)), but it never improved the performance of the final model, so we get rid of them. 
+This repository outlines the workflow for deploying a machine learning model as a web application on Heroku to detect credit card fraud. The dataset used for this project was sourced from Kaggle, provided by Vesta Corporation, a leading payment service company aiming to enhance fraud prevention strategies. The dataset is available [here](https://www.kaggle.com/c/ieee-fraud-detection).
 
-# 3rd step (Column transformer)
-Next, we separated numerical and categorical values. And created a pipeline using Column transformer to the rows that we defined as our features. 
-For rows with numerical values we used Simple imputer, where the number of missing values was between 15% - 60%, we used strategy 'mean', for rows the number of missing values was less than 15% - strategy 'median' was used.
-As for categorical data, we try not to impute missing values, as it can jeopardize the results of the predictions. that is why we labeled missing values as "Unknown". 
+---
 
-# 4th step Model Training
-We trained different models and compare their recall and f1:
+## Project Workflow
 
-1) Svc - recall = 0.65, f1 = 0.09
-2) XGB - recall = 0.26, f1 = 0.39 
-3) Logistic - recall = 0.71, f1 = 0
-4) Lgb: - recall = 0.17, f1 = 0.28
-5) Knn - recall = 0.074, f1 = 0.074
-6) Random forest - recall = 0.32, f1 = 0.48
+### **Step 1: Data Preprocessing**
+- **Data Sources**: The initial data consists of four CSV files: `train_identity`, `test_identity`, `train_transactions`, and `test_transactions`.
+- **Data Merging**: These files were combined into a single dataset to streamline the cleaning process.
+- **Handling Missing Values**: Rows containing more than 60% missing values were removed.
 
-Random forest showed the best scores we used it as our final model. 
+---
 
-# 5th step Web App Production
+### **Step 2: Feature Engineering**
+Several features were engineered to enhance model performance, including:
+- **Time-Based Features**: `Weekday` and `Hour of the Day`.
+- **Credit Card Features**: Attributes specific to each card.
+- **Transaction Distance**: The deviation of a transaction's value from the median value of transactions on the same card, relative to fraud cases.
 
-We uploaded our model on Heroku through Flask. The idea of a web app consists of a company/person uploading a CSV file with information about transactions. And our model predicts if the transaction is fraud or not. Weblink: https://dash-fraud.herokuapp.com
+**Note**: Features derived from user email domains (e.g., email bins such as Gmail) were tested but excluded as they did not improve the model's performance.
 
+---
 
+### **Step 3: Column Transformer**
+- **Feature Separation**: The dataset was divided into numerical and categorical features.
+- **Numerical Data**: Missing values were imputed based on the proportion of missing data:
+  - **15%-60% Missing**: Imputed with the mean.
+  - **<15% Missing**: Imputed with the median.
+- **Categorical Data**: Missing values were not imputed to avoid potential biases. Instead, missing values were labeled as `"Unknown"`.
 
+---
 
+### **Step 4: Model Training**
+Multiple models were trained, and their performance was evaluated based on recall and F1 scores:
+
+| Model           | Recall | F1   |
+|------------------|--------|------|
+| SVC             | 0.65   | 0.09 |
+| XGBoost         | 0.26   | 0.39 |
+| Logistic        | 0.71   | 0.00 |
+| LightGBM        | 0.17   | 0.28 |
+| KNN             | 0.074  | 0.074|
+| Random Forest   | 0.32   | 0.48 |
+
+**Selected Model**: Random Forest, demonstrating the best performance, was chosen as the final model.
+
+---
+
+### **Step 5: Web App Production**
+- **Deployment**: The finalized model was deployed on Heroku using Flask.
+- **Functionality**: The web application enables users to upload a CSV file containing transaction details. The model predicts whether each transaction is fraudulent or not.
+- **Web Application**: [Visit the app](https://dash-fraud.herokuapp.com).
+
+---
 
 
 
